@@ -1,29 +1,24 @@
 package ee.smkv.erply.api.client;
 
 
+import ee.smkv.erply.api.client.responses.Status;
+
 import java.io.IOException;
 
 public class ErplyException extends IOException {
-  private final String code;
-  private final String errorField;
-  private final String response;
+  private Status status;
 
-  public ErplyException(String code, String errorField, String response) {
-    super(String.format("Error #%s" , code));
-    this.code = code;
-    this.errorField = errorField;
-    this.response = response;
+  public ErplyException(Status status) {
+    this(String.format("Error #%s" , status.getErrorCode()));
+    this.status = status;
   }
 
-  public String getCode() {
-    return code;
+
+  public ErplyException(String message) {
+    super(message);
   }
 
-  public String getErrorField() {
-    return errorField;
-  }
-
-  public String getResponse() {
-    return response;
+  public Status getStatus() {
+    return status;
   }
 }
