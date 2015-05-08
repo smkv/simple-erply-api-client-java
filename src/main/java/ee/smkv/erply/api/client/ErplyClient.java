@@ -12,8 +12,11 @@ import java.net.MalformedURLException;
 import java.net.Proxy;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.Date;
 import java.util.LinkedHashMap;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ErplyClient {
   public static final String UTF_8 = "UTF8";
@@ -22,6 +25,8 @@ public class ErplyClient {
   private final String username;
   private final String password;
   private final URL url;
+
+  private ErplySession session;
 
   public ErplyClient(String clientCode, String username, String password) {
     this.clientCode = clientCode;
@@ -36,6 +41,27 @@ public class ErplyClient {
   }
 
   public String sendRequest(String method, Map<String, Object> parameters) throws IOException {
+
+
+    LinkedHashMap<String, Object> fixedParameters = new LinkedHashMap<>();
+    if (parameters != null) {
+      fixedParameters.putAll(parameters);
+    }
+    fixedParameters.put("version", version);
+    fixedParameters.put("clientCode", clientCode);
+    fixedParameters.put("request", method);
+
+
+    if (!"verifyUser".equals(method)) {
+      if (session == null || !session.isValid()) {
+        session = getNewSession();
+      }
+      fixedParameters.put("sessionKey", session.getKey());
+    }
+
+    String queryString = getQueryString(fixedParameters);
+
+
     HttpsURLConnection connection = getConnection();
     connection.setRequestMethod("POST");
     connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
@@ -43,16 +69,7 @@ public class ErplyClient {
     connection.setDoInput(true);
     connection.setDoOutput(true);
 
-    LinkedHashMap<String, Object> fixedParameters = new LinkedHashMap<>();
-    if (parameters != null) {
-      fixedParameters.putAll(parameters);
-    }
-    fixedParameters.put("version" , version);
-    fixedParameters.put("clientCode" , clientCode);
-    fixedParameters.put("request" , method);
-    String queryString = getQueryString(fixedParameters);
-
-
+    System.out.printf("%s >>> %s%n" , queryString , url);
     Writer writer = new OutputStreamWriter(connection.getOutputStream());
     writer.write(queryString);
     writer.flush();
@@ -67,8 +84,38 @@ public class ErplyClient {
     }
     reader.close();
 
-    return builder.toString();
 
+    String response = builder.toString();
+    System.out.printf("%s >>> %s%n" , url , response);
+
+
+    Matcher errorMatcher = Pattern.compile("\"responseStatus\"\\s*:\\s*\"error\"").matcher(response);
+    if (errorMatcher.find()) {
+      Matcher errorCodeMather = Pattern.compile("\"errorCode\"\\s*:\\s*(\\d+)").matcher(response);
+      Matcher errorFieldMather = Pattern.compile("\"errorField\"\\s*:\\s*(null|\"([^\"]*)\")").matcher(response);
+      throw new ErplyException(errorCodeMather.find() ? errorCodeMather.group(1) : null, errorFieldMather.find() ? errorFieldMather.group(2) : null, response);
+    }
+
+    return response;
+
+  }
+
+  private ErplySession getNewSession() throws IOException {
+    String response = sendRequest("verifyUser", new LinkedHashMap<String, Object>() {{
+      put("username", username);
+      put("password", password);
+    }});
+
+    Matcher sessionKeyMatcher = Pattern.compile("\"sessionKey\"\\s*:\\s*\"([^\"]*)\"").matcher(response);
+    Matcher sessionLengthMatcher = Pattern.compile("\"sessionLength\"\\s*:\\s*(\\d+)").matcher(response);
+
+    sessionKeyMatcher.find();
+    String key = sessionKeyMatcher.group(1);
+    sessionLengthMatcher.find();
+    Date now  = new Date();
+    Date expire = new Date( now.getTime() + Long.valueOf( sessionLengthMatcher.group(1)));
+
+    return new ErplySession(key , now , expire);
   }
 
   private String getQueryString(Map<String, Object> parameters) throws UnsupportedEncodingException {
