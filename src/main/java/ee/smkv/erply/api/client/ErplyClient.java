@@ -21,7 +21,6 @@ import java.util.Date;
 
 public class ErplyClient {
 
-    private final String version = "1.0";
     private final String clientCode;
     private final String username;
     private final String password;
