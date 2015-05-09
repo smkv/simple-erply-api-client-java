@@ -5,7 +5,7 @@ import ee.smkv.erply.api.client.responses.ProductsResponse;
 
 import java.util.Date;
 
-public class GerProductsRequest  extends Request<ProductsResponse> {
+public class GetProductsRequest extends Request<ProductsResponse> {
     
     private Integer productID;
     private String productIDs;
@@ -74,7 +74,7 @@ public class GerProductsRequest  extends Request<ProductsResponse> {
 
 
     
-    public GerProductsRequest() {
+    public GetProductsRequest() {
         super("getProducts");
     }
 
