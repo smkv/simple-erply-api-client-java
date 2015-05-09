@@ -3,7 +3,7 @@
 Usage example:
 ```java
 
-import package ee.smkv.erply.api.client.ErplyClient;
+import ee.smkv.erply.api.client.ErplyClient;
 import ee.smkv.erply.api.client.requests.GetProductsRequest;
 import ee.smkv.erply.api.client.responses.ProductsResponse;
 import ee.smkv.erply.api.client.models.Product;
