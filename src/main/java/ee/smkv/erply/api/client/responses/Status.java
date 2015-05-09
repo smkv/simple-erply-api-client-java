@@ -1,5 +1,7 @@
 package ee.smkv.erply.api.client.responses;
 
+import ee.smkv.erply.api.client.utils.ErplyErrorCodes;
+
 import java.math.BigDecimal;
 
 public class Status {
@@ -38,6 +40,10 @@ public class Status {
 
     public int getErrorCode() {
         return errorCode;
+    }
+
+    public String getErrorMessage(){
+        return ErplyErrorCodes.getErrorMessage(getErrorCode());
     }
 
     public void setErrorCode(int errorCode) {

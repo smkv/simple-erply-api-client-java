@@ -9,7 +9,7 @@ public class ErplyException extends IOException {
   private Status status;
 
   public ErplyException(Status status) {
-    this(String.format("Error #%s" , status.getErrorCode()));
+    this(String.format("Error #%s %s" , status.getErrorCode() , status.getErrorMessage()));
     this.status = status;
   }
 

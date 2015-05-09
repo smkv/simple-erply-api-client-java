@@ -32,7 +32,11 @@ public abstract class Response<T> {
     public T first() {
         return size() > 0 ? records.get(0) : null;
     }
-    
+
+    public T last() {
+        return size() > 0 ? records.get(size() - 1) : null;
+    }
+
     
     public void validate() throws ErplyException{
         if(status == null || StringUtils.isEmpty(status.getResponseStatus())){
@@ -40,7 +44,6 @@ public abstract class Response<T> {
         }
         if("error".equals(status.getResponseStatus())){
             throw  new ErplyException( status );
-            
         }
     }
 
