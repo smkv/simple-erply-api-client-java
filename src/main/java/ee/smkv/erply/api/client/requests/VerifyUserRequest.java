@@ -4,16 +4,30 @@ import ee.smkv.erply.api.client.responses.VerifyUserResponse;
 
 public class VerifyUserRequest extends Request<VerifyUserResponse> {
 
-    public static final String NAME = "verifyUser";
+    private final String username;
+    private final String password;
+    private Long sessionLength;
 
     public VerifyUserRequest(String username, String password) {
-        super(NAME);
-        addParameter("username", username);
-        addParameter("password", password);
+        super("verifyUser");
+        this.username = username;
+        this.password = password;
     }
 
-    public void setSessionLength(long time) {
-        addParameter("sessionLength", String.valueOf(time));
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public Long getSessionLength() {
+        return sessionLength;
+    }
+
+    public void setSessionLength(Long sessionLength) {
+        this.sessionLength = sessionLength;
     }
 
     @Override

@@ -1,5 +1,7 @@
 package ee.smkv.erply.api.client;
 
+import ee.smkv.erply.api.client.utils.StringUtils;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.io.*;
 import java.net.InetSocketAddress;

@@ -1,7 +1,7 @@
 package ee.smkv.erply.api.client.responses;
 
 import ee.smkv.erply.api.client.ErplyException;
-import ee.smkv.erply.api.client.StringUtils;
+import ee.smkv.erply.api.client.utils.StringUtils;
 
 import java.util.List;
 

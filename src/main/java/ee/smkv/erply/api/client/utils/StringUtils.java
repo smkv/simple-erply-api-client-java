@@ -1,4 +1,4 @@
-package ee.smkv.erply.api.client;
+package ee.smkv.erply.api.client.utils;
 
 public final class StringUtils {
 

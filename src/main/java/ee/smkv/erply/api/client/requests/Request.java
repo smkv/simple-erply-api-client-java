@@ -1,36 +1,51 @@
 package ee.smkv.erply.api.client.requests;
 
+import org.apache.commons.beanutils.PropertyUtils;
 
+import java.beans.PropertyDescriptor;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public abstract class Request<RT> {
-    private final String name;
-    private Map<String,String> parameters = new LinkedHashMap<>();
+public abstract class Request<Response> {
+    protected final String request;
+    protected final String version = "1.0";
+    protected String clientCode;
+    protected String sessionKey;
 
-    protected Request(String name) {
-        this.name = name;
+
+    protected Request(String request) {
+        this.request = request;
     }
 
-    public String getName() {
-        return name;
+    public String getRequest() {
+        return request;
     }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public String getClientCode() {
+        return clientCode;
+    }
+
+    public String getSessionKey() {
+        return sessionKey;
+    }
+
+    public void setClientCode(String clientCode) {
+        this.clientCode = clientCode;
+    }
+
+    public void setSessionKey(String sessionKey) {
+        this.sessionKey = sessionKey;
+    }
+
     
-    public void addParameter(String key , String value){
-        parameters.put(key, value);
-    }
-
-    public Map<String, String> getParameters() {
-        return parameters;
-    }
-    
-    public abstract Class<RT> getResponseClass();
+    public abstract Class<Response> getResponseClass();
 
     @Override
     public String toString() {
-        return "Request{" +
-                "name='" + name + '\'' +
-                ", parameters=" + parameters +
-                '}';
+        return request;
     }
 }

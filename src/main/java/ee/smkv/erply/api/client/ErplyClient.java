@@ -1,28 +1,26 @@
 package ee.smkv.erply.api.client;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import ee.smkv.erply.api.client.requests.Request;
 import ee.smkv.erply.api.client.requests.VerifyUserRequest;
 import ee.smkv.erply.api.client.responses.Response;
 import ee.smkv.erply.api.client.responses.VerifyUserResponse;
+import ee.smkv.erply.api.client.utils.BigDecimalSerializer;
+import ee.smkv.erply.api.client.utils.BooleanSerializer;
+import ee.smkv.erply.api.client.utils.DateSerializer;
+import ee.smkv.erply.api.client.utils.RequestParametersBuilder;
 
-import javax.net.ssl.HttpsURLConnection;
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.io.UnsupportedEncodingException;
-import java.io.Writer;
-import java.net.InetSocketAddress;
+import java.lang.reflect.Type;
+import java.math.BigDecimal;
 import java.net.MalformedURLException;
-import java.net.Proxy;
 import java.net.URL;
-import java.net.URLEncoder;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import java.util.Date;
 
 public class ErplyClient {
-    public static final String UTF_8 = "UTF8";
+
     private final String version = "1.0";
     private final String clientCode;
     private final String username;
@@ -30,6 +28,15 @@ public class ErplyClient {
     private final URL url;
 
     private Session session;
+    
+    private Gson gson;
+    {
+        GsonBuilder builder = new GsonBuilder();
+        builder.registerTypeAdapter(Boolean.class , new BooleanSerializer());
+        builder.registerTypeAdapter(BigDecimal.class , new BigDecimalSerializer());
+        builder.registerTypeAdapter(Date.class , new DateSerializer());
+        gson = builder.create();
+    }
 
     public ErplyClient(String clientCode, String username, String password) {
         this.clientCode = clientCode;
@@ -43,22 +50,20 @@ public class ErplyClient {
     }
 
     public <T extends Response> T invoke(Request<T> request) throws IOException {
-        request.addParameter("version", version);
-        request.addParameter("clientCode", clientCode);
-        request.addParameter("request", request.getName());
 
+        request.setClientCode(clientCode);
         if (!(request instanceof VerifyUserRequest)) {
             if (session == null || !session.isValid()) {
                 session = createNewSession();
             }
-            request.addParameter("sessionKey", session.getKey());
+            request.setSessionKey(session.getKey());
         }
 
         ErplyHttpsConnection connection = new ErplyHttpsConnection(url);
-        connection.write(getQueryString(request.getParameters()));
+        connection.write(new RequestParametersBuilder(request).build());
         String responseText = connection.read();
 
-        T response = new Gson().fromJson(responseText, request.getResponseClass());
+        T response = gson.fromJson(responseText, request.getResponseClass());
         response.validate();
         return response;
 
@@ -76,19 +81,7 @@ public class ErplyClient {
         return new Session(response);
     }
 
-    private String getQueryString(Map<String, String> parameters) throws UnsupportedEncodingException {
-        StringBuilder builder = new StringBuilder();
 
-        for (String key : parameters.keySet()) {
-            if (builder.length() > 0) {
-                builder.append('&');
-            }
-            String value = parameters.get(key);
-            builder.append(URLEncoder.encode(key, UTF_8)).append('=').append(value == null ? "" : URLEncoder.encode(value, UTF_8));
-        }
-
-        return builder.toString();
-    }
 
 
 }

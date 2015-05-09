@@ -2,6 +2,7 @@ package ee.smkv.erply.api.client;
 
 import ee.smkv.erply.api.client.models.VerifiedUser;
 import ee.smkv.erply.api.client.responses.VerifyUserResponse;
+import ee.smkv.erply.api.client.utils.StringUtils;
 
 import java.util.Date;
 
