@@ -65,7 +65,7 @@ public class RequestParametersBuilder {
             return (String) value;
         }
         if (value instanceof Date) {
-            return String.valueOf(((Date) value).getTime());
+            return String.valueOf(((Date) value).getTime() / 1000);
         }
         if (value instanceof BigDecimal) {
             return ((BigDecimal) value).toPlainString();
