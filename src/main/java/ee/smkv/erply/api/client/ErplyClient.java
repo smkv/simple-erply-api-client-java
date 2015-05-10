@@ -52,10 +52,12 @@ public class ErplyClient {
 
         request.setClientCode(clientCode);
         if (!(request instanceof VerifyUserRequest)) {
-            if (session == null || !session.isValid()) {
-                session = createNewSession();
+            synchronized (this) {
+                if (session == null || !session.isValid()) {
+                    session = createNewSession();
+                }
+                request.setSessionKey(session.getKey());
             }
-            request.setSessionKey(session.getKey());
         }
 
         ErplyHttpsConnection connection = new ErplyHttpsConnection(url);
