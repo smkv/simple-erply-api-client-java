@@ -1,5 +1,7 @@
-package ee.smkv.erply.api.client;
+package ee.smkv.erply.api.client.impl;
 
+import ee.smkv.erply.api.client.EndPoint;
+import ee.smkv.erply.api.client.utils.QueryStringBuilder;
 import ee.smkv.erply.api.client.utils.StringUtils;
 
 import javax.net.ssl.HttpsURLConnection;
@@ -7,12 +9,15 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.net.Proxy;
 import java.net.URL;
+import java.net.URLEncoder;
+import java.util.Map;
 
-class ErplyHttpsConnection {
+class DefaultHttpsEndPoint implements EndPoint {
+
     private final URL url;
     private final HttpsURLConnection connection;
 
-    ErplyHttpsConnection(URL url) throws IOException {
+    DefaultHttpsEndPoint(URL url) throws IOException {
         this.url = url;
         connection = getConnection(url);
         connection.setRequestMethod("POST");
@@ -22,11 +27,11 @@ class ErplyHttpsConnection {
         connection.setDoOutput(true);
     }
 
-    void write( String queryString) throws IOException {
+    private void write( String data) throws IOException {
         Writer writer = null;
         try {
             writer = new OutputStreamWriter(connection.getOutputStream());
-            writer.write(queryString);
+            writer.write(data);
             writer.flush();
         } finally {
             if (writer != null) {
@@ -35,7 +40,7 @@ class ErplyHttpsConnection {
         }
     }
 
-    String read() throws IOException {
+    private String read() throws IOException {
         StringBuilder builder = new StringBuilder();
         BufferedReader reader = null;
         try {
@@ -60,5 +65,14 @@ class ErplyHttpsConnection {
 
         return (HttpsURLConnection) url.openConnection();
     }
+
+    @Override
+    public String call(Map<String, String> parameters) throws IOException {
+        write(new QueryStringBuilder(parameters).build());
+        return read();
+    }
+
+
+
 }
 

@@ -2,7 +2,7 @@ package ee.smkv.erply.api.client;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import ee.smkv.erply.api.client.impl.DefaultHttpsEndPointFactory;
 import ee.smkv.erply.api.client.requests.Request;
 import ee.smkv.erply.api.client.requests.VerifyUserRequest;
 import ee.smkv.erply.api.client.responses.Response;
@@ -13,11 +13,11 @@ import ee.smkv.erply.api.client.utils.DateSerializer;
 import ee.smkv.erply.api.client.utils.RequestParametersBuilder;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Date;
+import java.util.Map;
 
 public class ErplyClient {
 
@@ -25,6 +25,7 @@ public class ErplyClient {
     private final String username;
     private final String password;
     private final URL url;
+    private EndPointFactory endPointFactory = new DefaultHttpsEndPointFactory();
 
     private Session session;
     
@@ -60,14 +61,14 @@ public class ErplyClient {
             }
         }
 
-        ErplyHttpsConnection connection = new ErplyHttpsConnection(url);
-        connection.write(new RequestParametersBuilder(request).build());
-        String responseText = connection.read();
+        Map<String, String> parameters = new RequestParametersBuilder(request).build();
+
+        EndPoint endPoint = endPointFactory.createEndPoint(url);
+        String responseText = endPoint.call(parameters);
 
         T response = gson.fromJson(responseText, request.getResponseClass());
         response.validate();
         return response;
-
     }
 
 
@@ -82,7 +83,33 @@ public class ErplyClient {
         return new Session(response);
     }
 
+    public String getClientCode() {
+        return clientCode;
+    }
 
+    public String getUsername() {
+        return username;
+    }
 
+    public URL getUrl() {
+        return url;
+    }
 
+    public EndPointFactory getEndPointFactory() {
+        return endPointFactory;
+    }
+
+    public void setEndPointFactory(EndPointFactory endPointFactory) {
+        this.endPointFactory = endPointFactory;
+    }
+
+    @Override
+    public String toString() {
+        return "ErplyClient{" +
+                "clientCode='" + clientCode + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", url=" + url +
+                '}';
+    }
 }

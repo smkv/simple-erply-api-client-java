@@ -11,7 +11,7 @@ import java.net.URLEncoder;
 import java.util.*;
 
 public class RequestParametersBuilder {
-    public static final String UTF_8 = "UTF8";
+
     public static List<String> forbiddenFields = Arrays.asList("class", "responseClass");
     private final Request request;
 
@@ -20,11 +20,9 @@ public class RequestParametersBuilder {
         this.request = request;
     }
 
-    public String build() {
-        return createQueryString(createMap());
-    }
 
-    private Map<String, String> createMap() {
+
+    public Map<String, String> build() {
         Map<String, String> map = new LinkedHashMap<>();
 
         for (PropertyDescriptor propertyDescriptor : PropertyUtils.getPropertyDescriptors(request)) {
@@ -77,21 +75,5 @@ public class RequestParametersBuilder {
         return String.valueOf(value);
     }
 
-    private String createQueryString(Map<String, String> parameters) {
-        StringBuilder builder = new StringBuilder();
 
-        for (String key : parameters.keySet()) {
-            if (builder.length() > 0) {
-                builder.append('&');
-            }
-            String value = parameters.get(key);
-            try {
-                builder.append(URLEncoder.encode(key, UTF_8)).append('=').append(value == null ? "" : URLEncoder.encode(value, UTF_8));
-            } catch (UnsupportedEncodingException e) {
-                throw new RuntimeException(e.getMessage(), e);
-            }
-        }
-
-        return builder.toString();
-    }
 }
