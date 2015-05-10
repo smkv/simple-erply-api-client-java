@@ -21,7 +21,6 @@ public class RequestParametersBuilder {
     }
 
 
-
     public Map<String, String> build() {
         Map<String, String> map = new LinkedHashMap<>();
 
@@ -34,14 +33,24 @@ public class RequestParametersBuilder {
                 Object value = propertyDescriptor.getReadMethod().invoke(request);
                 if (value instanceof Collection) {
                     int index = 0;
-                    for (Object collectionItem : (Collection) value) {
+                    Collection collection = (Collection) value;
+
+                    if (collection.size() > 0) {
+                        Object collectionItem = collection.iterator().next();
+                        if (collectionItem instanceof String || collectionItem instanceof Number) {
+                            map.put(name, listToString(collection));
+                            continue;
+                        }
+                    }
+
+                    for (Object collectionItem : collection) {
                         index++;
                         for (PropertyDescriptor propertyDescriptor2 : PropertyUtils.getPropertyDescriptors(collectionItem)) {
-                            String name2 = propertyDescriptor.getName();
+                            String name2 = propertyDescriptor2.getName();
                             if (forbiddenFields.contains(name2)) {
                                 continue;
                             }
-                            Object value2 = propertyDescriptor.getReadMethod().invoke(collectionItem);
+                            Object value2 = propertyDescriptor2.getReadMethod().invoke(collectionItem);
                             if (value2 != null) {
                                 map.put(name2 + index, toString(value2));
                             }
@@ -56,6 +65,17 @@ public class RequestParametersBuilder {
         }
 
         return map;
+    }
+
+    private String listToString(Collection collection) {
+        StringBuilder builder = new StringBuilder();
+        for (Object item : collection) {
+            if (builder.length() > 0) {
+                builder.append(',');
+            }
+            builder.append(item);
+        }
+        return builder.toString();
     }
 
     private String toString(Object value) {

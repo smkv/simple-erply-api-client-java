@@ -1,12 +1,13 @@
 package ee.smkv.erply.api.client.requests;
 
+import ee.smkv.erply.api.client.responses.Response;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.beans.PropertyDescriptor;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public abstract class Request<Response> {
+public abstract class Request<T extends Response> {
     protected final String request;
     protected final String version = "1.0";
     protected String clientCode;
@@ -42,7 +43,7 @@ public abstract class Request<Response> {
     }
 
     
-    public abstract Class<Response> getResponseClass();
+    public abstract Class<T> getResponseClass();
 
     @Override
     public String toString() {
