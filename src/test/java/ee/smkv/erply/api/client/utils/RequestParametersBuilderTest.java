@@ -28,6 +28,8 @@ public class RequestParametersBuilderTest {
 
     @Test
     public void testBuildNestedFields() throws Exception {
+        final Date date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse("10.05.2015 18:50:00");
+        
         Map<String, String> expected = new LinkedHashMap<String, String>();
         expected.put("version", "1.0");
         expected.put("request", "test");
@@ -35,7 +37,7 @@ public class RequestParametersBuilderTest {
         expected.put("name", "test-name");
         expected.put("price", "10.55");
         expected.put("active", "1");
-        expected.put("created", "1431273000");
+        expected.put("created", String.valueOf(date.getTime() / 1000));
         expected.put("empty", "");
 
         Map<String, String> actual = new RequestParametersBuilder(new TestRequest("test") {
@@ -43,7 +45,7 @@ public class RequestParametersBuilderTest {
             String name = "test-name";
             BigDecimal price = new BigDecimal("10.55");
             Boolean active = true;
-            Date created = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse("10.05.2015 18:50:00");
+            Date created = date;
             String aNull;
             String empty = "";
 
