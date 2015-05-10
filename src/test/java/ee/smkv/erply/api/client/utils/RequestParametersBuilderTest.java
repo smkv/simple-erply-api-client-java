@@ -20,7 +20,9 @@ public class RequestParametersBuilderTest {
         expected.put("request", "test");
 
         Map<String, String> actual = new RequestParametersBuilder(new TestRequest("test")).build();
-        assertEquals(expected, actual);
+        for(String key : expected.keySet()){
+            assertEquals( expected.get(key) ,actual.get(key));
+        }
     }
 
 
@@ -73,7 +75,9 @@ public class RequestParametersBuilderTest {
                 return price;
             }
         }).build();
-        assertEquals(expected, actual);
+        for(String key : expected.keySet()){
+            assertEquals( expected.get(key) ,actual.get(key));
+        }
     }
 
 
@@ -102,7 +106,9 @@ public class RequestParametersBuilderTest {
                 return empty;
             }
         }).build();
-        assertEquals(expected, actual);
+        for(String key : expected.keySet()){
+            assertEquals( expected.get(key) ,actual.get(key));
+        }
     }
 
 
@@ -124,7 +130,10 @@ public class RequestParametersBuilderTest {
                 return list;
             }
         }).build();
-        assertEquals(expected, actual);
+        
+        for(String key : expected.keySet()){
+            assertEquals( expected.get(key) ,actual.get(key));
+        }
     }
 
     private class TestObject{
