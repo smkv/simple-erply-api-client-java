@@ -2,6 +2,7 @@ package ee.smkv.erply.api.client.utils;
 
 import ee.smkv.erply.api.client.requests.Request;
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.codec.binary.Base64;
 
 import java.beans.PropertyDescriptor;
 import java.io.UnsupportedEncodingException;
@@ -90,7 +91,9 @@ public class RequestParametersBuilder {
         }
         if (value instanceof Boolean) {
             return (Boolean) value ? "1" : "0";
-
+        }
+        if(value instanceof byte[]) {
+            return Base64.encodeBase64String((byte[]) value);
         }
         return String.valueOf(value);
     }
