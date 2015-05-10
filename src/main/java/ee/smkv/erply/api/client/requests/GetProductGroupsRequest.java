@@ -5,7 +5,7 @@ import ee.smkv.erply.api.client.responses.ProductGroupsResponse;
 
 import java.util.Date;
 
-public class GetProductGroups extends Request<ProductGroupsResponse> {
+public class GetProductGroupsRequest extends Request<ProductGroupsResponse> {
     
     private Integer productGroupID;
     private Date changedSince;
@@ -15,7 +15,7 @@ public class GetProductGroups extends Request<ProductGroupsResponse> {
     private Boolean getAllLanguages;
 
     
-    public GetProductGroups() {
+    public GetProductGroupsRequest() {
         super("getProductGroups");
     }
 

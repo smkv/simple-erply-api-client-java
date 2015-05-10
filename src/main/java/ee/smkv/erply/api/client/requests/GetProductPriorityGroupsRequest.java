@@ -5,13 +5,13 @@ import ee.smkv.erply.api.client.responses.ProductPriorityGroupsResponse;
 
 import java.util.Date;
 
-public class GetProductPriorityGroups extends Request<ProductPriorityGroupsResponse> {
+public class GetProductPriorityGroupsRequest extends Request<ProductPriorityGroupsResponse> {
     
     private Date changedSince;
     private Integer recordsOnPage;
     private Integer pageNo;
     
-    public GetProductPriorityGroups() {
+    public GetProductPriorityGroupsRequest() {
         super("getProductPriorityGroups");
     }
 

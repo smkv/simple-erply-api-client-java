@@ -5,14 +5,14 @@ import ee.smkv.erply.api.client.responses.ProductPricesResponse;
 
 import java.util.List;
 
-public class GetProductPrices extends Request<ProductPricesResponse>{
+public class GetProductPricesRequest extends Request<ProductPricesResponse>{
     
     private Integer productID;
     private List<Integer> productIDs;
     private Integer clientID;
     private Integer warehouseID;
 
-    protected GetProductPrices() {
+    protected GetProductPricesRequest() {
         super("getProductPrices");
     }
 

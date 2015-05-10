@@ -3,8 +3,8 @@ package ee.smkv.erply.api.client.requests;
 
 import ee.smkv.erply.api.client.responses.ProductUnitsResponse;
 
-public class GetProductUnits extends Request<ProductUnitsResponse> {
-    public GetProductUnits() {
+public class GetProductUnitsRequest extends Request<ProductUnitsResponse> {
+    public GetProductUnitsRequest() {
         super("getProductUnits");
     }
 

@@ -5,7 +5,7 @@ import ee.smkv.erply.api.client.responses.ProductCategoriesResponse;
 
 import java.util.Date;
 
-public class GetProductCategories extends Request<ProductCategoriesResponse> {
+public class GetProductCategoriesRequest extends Request<ProductCategoriesResponse> {
 
     private Integer parentCategoryID;
     private String searchAttributeName;
@@ -14,7 +14,7 @@ public class GetProductCategories extends Request<ProductCategoriesResponse> {
     private Integer recordsOnPage;
     private Integer pageNo;
 
-    public GetProductCategories() {
+    public GetProductCategoriesRequest() {
         super("getProductCategories");
     }
 
