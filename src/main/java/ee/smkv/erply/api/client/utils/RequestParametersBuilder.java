@@ -61,6 +61,22 @@ public class RequestParametersBuilder {
               }
             }
           }
+        } else if(value instanceof Map){
+
+          for (Object key : ((Map) value).keySet()) {
+            Object mapItem = ((Map) value).get(key);
+            for (PropertyDescriptor propertyDescriptor2 : PropertyUtils.getPropertyDescriptors(mapItem)) {
+              String name2 = getPropertyName(propertyDescriptor2);
+              if (forbiddenFields.contains(name2)) {
+                continue;
+              }
+              Object value2 = propertyDescriptor2.getReadMethod().invoke(mapItem);
+              if (value2 != null) {
+                map.put(name2 + key, toString(value2, propertyDescriptor2));
+              }
+            }
+          }
+          
         }
         else if (value != null) {
           map.put(name, toString(value, propertyDescriptor));

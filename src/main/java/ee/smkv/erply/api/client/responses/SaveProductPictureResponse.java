@@ -1,7 +1,15 @@
 package ee.smkv.erply.api.client.responses;
 
+public class SaveProductPictureResponse extends Response<SaveProductPictureResponse.Record>{
+    public static class Record{
+        private Integer productPictureID;
 
-import ee.smkv.erply.api.client.models.ProductPicture;
+        public Integer getProductPictureID() {
+            return productPictureID;
+        }
 
-public class SaveProductPictureResponse extends Response<ProductPicture>{
+        public void setProductPictureID(Integer productPictureID) {
+            this.productPictureID = productPictureID;
+        }
+    }
 }
