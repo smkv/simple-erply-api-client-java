@@ -1,5 +1,7 @@
 #Simple Java client for Erply API
 
+See more http://erply.com/api/
+
 Usage example:
 ```java
 
