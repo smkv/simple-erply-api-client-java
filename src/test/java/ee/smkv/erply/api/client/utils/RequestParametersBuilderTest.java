@@ -20,8 +20,8 @@ public class RequestParametersBuilderTest {
         expected.put("request", "test");
 
         Map<String, String> actual = new RequestParametersBuilder(new TestRequest("test")).build();
-        for(String key : expected.keySet()){
-            assertEquals( expected.get(key) ,actual.get(key));
+        for (String key : expected.keySet()) {
+            assertEquals(expected.get(key), actual.get(key));
         }
     }
 
@@ -29,7 +29,7 @@ public class RequestParametersBuilderTest {
     @Test
     public void testBuildNestedFields() throws Exception {
         final Date date = new SimpleDateFormat("dd.MM.yyyy HH:mm:ss").parse("10.05.2015 18:50:00");
-        
+
         Map<String, String> expected = new LinkedHashMap<String, String>();
         expected.put("version", "1.0");
         expected.put("request", "test");
@@ -77,8 +77,8 @@ public class RequestParametersBuilderTest {
                 return price;
             }
         }).build();
-        for(String key : expected.keySet()){
-            assertEquals( expected.get(key) ,actual.get(key));
+        for (String key : expected.keySet()) {
+            assertEquals(expected.get(key), actual.get(key));
         }
     }
 
@@ -91,9 +91,9 @@ public class RequestParametersBuilderTest {
         expected.put("ids", "1,2,3");
         expected.put("strings", "a,b,c");
 
-        Map<String, String> actual = new RequestParametersBuilder(new TestRequest("test"){
-            List<Integer> ids = Arrays.asList(1,2,3);
-            List<String> strings = Arrays.asList("a","b","c");
+        Map<String, String> actual = new RequestParametersBuilder(new TestRequest("test") {
+            List<Integer> ids = Arrays.asList(1, 2, 3);
+            List<String> strings = Arrays.asList("a", "b", "c");
             List<String> empty = Arrays.asList();
 
             public List<Integer> getIds() {
@@ -108,8 +108,8 @@ public class RequestParametersBuilderTest {
                 return empty;
             }
         }).build();
-        for(String key : expected.keySet()){
-            assertEquals( expected.get(key) ,actual.get(key));
+        for (String key : expected.keySet()) {
+            assertEquals(expected.get(key), actual.get(key));
         }
     }
 
@@ -125,20 +125,52 @@ public class RequestParametersBuilderTest {
         expected.put("name2", "b");
 
 
-        Map<String, String> actual = new RequestParametersBuilder(new TestRequest("test"){
-            List<TestObject> list = Arrays.asList( new TestObject(1,"a"), new TestObject(2,"b"));
+        Map<String, String> actual = new RequestParametersBuilder(new TestRequest("test") {
+            List<TestObject> list = Arrays.asList(new TestObject(1, "a"), new TestObject(2, "b"));
 
             public List<TestObject> getList() {
                 return list;
             }
         }).build();
-        
-        for(String key : expected.keySet()){
-            assertEquals( expected.get(key) ,actual.get(key));
+
+        for (String key : expected.keySet()) {
+            assertEquals(expected.get(key), actual.get(key));
         }
     }
 
-    private class TestObject{
+
+    @Test
+    public void testBuildMap() throws Exception {
+        Map<String, String> expected = new LinkedHashMap<String, String>();
+        expected.put("version", "1.0");
+        expected.put("request", "test");
+        expected.put("id5", "1");
+        expected.put("name5", "a");
+        expected.put("id20", "2");
+        expected.put("name20", "b");
+
+
+        Map<String, String> actual = new RequestParametersBuilder(new TestRequest("test") {
+            Map<Integer, TestObject> map = new LinkedHashMap<Integer, TestObject>();
+
+            {
+                map.put(5, new TestObject(1, "a"));
+                map.put(20, new TestObject(2, "b"));
+            }
+
+
+            public Map<Integer, TestObject> getMap() {
+                return map;
+            }
+        }).build();
+
+        for (String key : expected.keySet()) {
+            assertEquals(expected.get(key), actual.get(key));
+        }
+    }
+
+
+    private class TestObject {
         private Integer id;
         private String name;
 
