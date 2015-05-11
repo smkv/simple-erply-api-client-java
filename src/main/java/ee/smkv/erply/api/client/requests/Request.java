@@ -1,6 +1,8 @@
 package ee.smkv.erply.api.client.requests;
 
 import ee.smkv.erply.api.client.responses.Response;
+import ee.smkv.erply.api.client.utils.QueryStringBuilder;
+import ee.smkv.erply.api.client.utils.RequestParametersBuilder;
 import org.apache.commons.beanutils.PropertyUtils;
 
 import java.beans.PropertyDescriptor;
@@ -47,6 +49,6 @@ public abstract class Request<T extends Response> {
 
     @Override
     public String toString() {
-        return request;
+        return new QueryStringBuilder(new RequestParametersBuilder(this).build()).build();
     }
 }
