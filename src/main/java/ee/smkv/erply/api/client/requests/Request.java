@@ -14,6 +14,7 @@ public abstract class Request<T extends Response> {
     protected final String version = "1.0";
     protected String clientCode;
     protected String sessionKey;
+    protected ResponseMode responseMode;
 
 
     protected Request(String request) {
@@ -44,7 +45,14 @@ public abstract class Request<T extends Response> {
         this.sessionKey = sessionKey;
     }
 
-    
+    public ResponseMode getResponseMode() {
+        return responseMode;
+    }
+
+    public void setResponseMode(ResponseMode responseMode) {
+        this.responseMode = responseMode;
+    }
+
     public abstract Class<T> getResponseClass();
 
     @Override
