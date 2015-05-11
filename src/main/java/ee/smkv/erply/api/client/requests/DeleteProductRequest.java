@@ -10,6 +10,10 @@ public class DeleteProductRequest extends Request<DeleteProductResponse> {
     this.productID = productID;
   }
 
+  public Integer getProductID() {
+    return productID;
+  }
+
   @Override
   public Class<DeleteProductResponse> getResponseClass() {
     return DeleteProductResponse.class;
