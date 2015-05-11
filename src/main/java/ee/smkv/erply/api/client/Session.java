@@ -17,7 +17,7 @@ public class Session {
     Session(VerifyUserResponse verifyUserResponse) {
         verifiedUser = verifyUserResponse.first();
         key = verifiedUser.getSessionKey();
-        startDate = new Date(verifyUserResponse.getStatus().getRequestUnixTime());
+        startDate = verifyUserResponse.getStatus().getRequestUnixTime();
         endDate = new Date(startDate.getTime() + verifiedUser.getSessionLength());
     }
 

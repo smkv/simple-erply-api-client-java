@@ -3,10 +3,11 @@ package ee.smkv.erply.api.client.responses;
 import ee.smkv.erply.api.client.utils.ErplyErrorCodes;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 public class Status {
     private String request;
-    private long  requestUnixTime;
+    private Date requestUnixTime;
     private String responseStatus;
     private int errorCode;
     private BigDecimal generationTime;
@@ -22,11 +23,11 @@ public class Status {
         this.request = request;
     }
 
-    public long getRequestUnixTime() {
+    public Date getRequestUnixTime() {
         return requestUnixTime;
     }
 
-    public void setRequestUnixTime(long requestUnixTime) {
+    public void setRequestUnixTime(Date requestUnixTime) {
         this.requestUnixTime = requestUnixTime;
     }
 
