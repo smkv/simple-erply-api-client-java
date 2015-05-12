@@ -40,7 +40,7 @@ public class Customer {
     private Boolean rewardPointsDisabled;
     private Boolean posCouponsDisabled;
     private String lastModifierUsername;
-    private List<Address> addresses;
+    private List<CustomerAddress> addresses;
     private List<ContactPerson> contactPersons;
     private List<Attribute> attributes;
     private List<Attribute> longAttributes;
@@ -365,11 +365,11 @@ public class Customer {
         this.lastModifierUsername = lastModifierUsername;
     }
 
-    public List<Address> getAddresses() {
+    public List<CustomerAddress> getAddresses() {
         return addresses;
     }
 
-    public void setAddresses(List<Address> addresses) {
+    public void setAddresses(List<CustomerAddress> addresses) {
         this.addresses = addresses;
     }
 
