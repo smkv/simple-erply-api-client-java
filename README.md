@@ -2,7 +2,7 @@
 
 See more http://erply.com/api/
 
-Usage example:
+## Usage example
 ```java
 
 import ee.smkv.erply.api.client.ErplyClient;
@@ -16,4 +16,17 @@ import ee.smkv.erply.api.client.models.Product;
  for(Product product :  response.getRecords()){
   System.out.println(product.getName());
  }
+```
+
+## Http(s) proxy
+
+Please use 'http.proxyHost' and 'http.proxyPort' system properties
+
+```java
+    System.setProperty("http.proxyHost" , "localhost");
+    System.setProperty("http.proxyPort" , "3128");
+```
+
+```bash
+java -Dhttp.proxyHost=localhost -Dhttp.proxyPort=3128 .... 
 ```
