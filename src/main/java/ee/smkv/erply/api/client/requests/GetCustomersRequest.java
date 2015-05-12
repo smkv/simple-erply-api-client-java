@@ -35,7 +35,7 @@ public class GetCustomersRequest extends Request<CustomersResponse> {
     private Boolean getContactPersons;
     private Boolean doNotCalculateRecordsTotal;
     private Date changedSince;
-    private String lang;
+    private Language lang;
     private String orderBy;
     private OrderByDirection orderByDir;
     private Integer recordsOnPage;
@@ -276,11 +276,11 @@ public class GetCustomersRequest extends Request<CustomersResponse> {
         this.changedSince = changedSince;
     }
 
-    public String getLang() {
+    public Language getLang() {
         return lang;
     }
 
-    public void setLang(String lang) {
+    public void setLang(Language lang) {
         this.lang = lang;
     }
 

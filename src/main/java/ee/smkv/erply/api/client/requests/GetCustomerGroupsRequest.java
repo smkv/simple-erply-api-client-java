@@ -7,7 +7,7 @@ import java.util.Date;
 public class GetCustomerGroupsRequest extends Request<CustomerGroupsResponse> {
     
     private Date changedSince;
-    private String lang;
+    private Language lang;
     
     public GetCustomerGroupsRequest() {
         super("getCustomerGroups");
@@ -26,11 +26,11 @@ public class GetCustomerGroupsRequest extends Request<CustomerGroupsResponse> {
         this.changedSince = changedSince;
     }
 
-    public String getLang() {
+    public Language getLang() {
         return lang;
     }
 
-    public void setLang(String lang) {
+    public void setLang(Language lang) {
         this.lang = lang;
     }
 }

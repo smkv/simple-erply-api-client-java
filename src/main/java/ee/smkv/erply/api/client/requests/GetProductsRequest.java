@@ -64,7 +64,7 @@ public class GetProductsRequest extends Request<ProductsResponse> {
     private String searchParameterValue;
     private Date addedSince;
     private Date changedSince;
-    private String lang;
+    private Language lang;
     private Boolean getAllLanguages;
     private String orderBy;
     private OrderByDirection orderByDir;
@@ -540,11 +540,11 @@ public class GetProductsRequest extends Request<ProductsResponse> {
         this.changedSince = changedSince;
     }
 
-    public String getLang() {
+    public Language getLang() {
         return lang;
     }
 
-    public void setLang(String lang) {
+    public void setLang(Language lang) {
         this.lang = lang;
     }
 

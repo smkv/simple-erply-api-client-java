@@ -11,7 +11,7 @@ public class GetProductGroupsRequest extends Request<ProductGroupsResponse> {
     private Date changedSince;
     private String searchAttributeName;
     private String searchAttributeValue;
-    private String lang;
+    private Language lang;
     private Boolean getAllLanguages;
 
     
@@ -57,11 +57,11 @@ public class GetProductGroupsRequest extends Request<ProductGroupsResponse> {
         this.searchAttributeValue = searchAttributeValue;
     }
 
-    public String getLang() {
+    public Language getLang() {
         return lang;
     }
 
-    public void setLang(String lang) {
+    public void setLang(Language lang) {
         this.lang = lang;
     }
 
