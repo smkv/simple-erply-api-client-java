@@ -184,7 +184,7 @@ public class GetProductStockRequest extends Request<ProductStockResponse> {
     this.getFirstPurchase = getFirstPurchase;
   }
 
-  @Parameter(value = "getFirstPurchaseDate", format = "yyyy-MM-dd")
+  @Parameter(value = "getFirstPurchaseDate", format = ISO_DATE_FORMAT)
   public Date getGetFirstPurchaseDate() {
     return getFirstPurchaseDate;
   }
@@ -202,7 +202,7 @@ public class GetProductStockRequest extends Request<ProductStockResponse> {
     this.getLastPurchase = getLastPurchase;
   }
 
-  @Parameter(value = "getLastPurchaseDate", format = "yyyy-MM-dd")
+  @Parameter(value = "getLastPurchaseDate", format = ISO_DATE_FORMAT)
   public Date getGetLastPurchaseDate() {
     return getLastPurchaseDate;
   }
@@ -220,7 +220,7 @@ public class GetProductStockRequest extends Request<ProductStockResponse> {
     this.getLastSold = getLastSold;
   }
 
-  @Parameter(value = "getLastSoldDate", format = "yyyy-MM-dd")
+  @Parameter(value = "getLastSoldDate", format = ISO_DATE_FORMAT)
   public Date getGetLastSoldDate() {
     return getLastSoldDate;
   }

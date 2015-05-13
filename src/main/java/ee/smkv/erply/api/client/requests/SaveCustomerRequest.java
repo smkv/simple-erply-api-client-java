@@ -243,7 +243,7 @@ public class SaveCustomerRequest extends Request<SaveCustomerResponse> {
     this.bankSWIFT = bankSWIFT;
   }
 
-  @Parameter(value = "birthday",format = "yyyy-MM-dd")
+  @Parameter(value = "birthday",format = ISO_DATE_FORMAT)
   public Date getBirthday() {
     return birthday;
   }

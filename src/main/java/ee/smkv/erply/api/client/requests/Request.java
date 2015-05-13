@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 public abstract class Request<T extends Response> {
+    public static final String ISO_DATE_FORMAT = "yyyy-MM-dd";
     protected final String request;
     protected final String version = "1.0";
     protected String clientCode;
