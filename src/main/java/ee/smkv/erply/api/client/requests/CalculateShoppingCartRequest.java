@@ -27,6 +27,10 @@ public class CalculateShoppingCartRequest extends Request<ShoppingCartResponse> 
         super("calculateShoppingCart");
     }
 
+    protected CalculateShoppingCartRequest(String request) {
+        super(request);
+    }
+
     @Override
     public Class<ShoppingCartResponse> getResponseClass() {
         return ShoppingCartResponse.class;
